@@ -1,0 +1,11 @@
+[package]
+name = "dioxus-tea"
+authors = ["Marcel Ibes <mibes@avaya.com>"]
+description = "Dioxus - The Elm Architecture (tea) Model"
+version = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+
+[dependencies]
+dioxus = { workspace = true }
+futures-util = "0.3"
