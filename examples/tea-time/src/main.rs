@@ -14,7 +14,7 @@ fn main() {
 mod model {
     use std::fmt::Display;
 
-    #[derive(Default, Clone, PartialEq)]
+    #[derive(Default, Clone, PartialEq, Debug)]
     pub enum Status {
         #[default]
         FetchingCup,
@@ -41,7 +41,7 @@ mod model {
         }
     }
 
-    #[derive(Clone, PartialEq)]
+    #[derive(Clone, PartialEq, Debug)]
     pub enum TeaType {
         Black,
         Green,
@@ -72,7 +72,7 @@ mod model {
         }
     }
 
-    #[derive(Clone, PartialEq)]
+    #[derive(Clone, PartialEq, Debug)]
     pub enum MakeTeaError {
         MissingTeaBag,
         WaterTooHot,
@@ -111,44 +111,44 @@ mod model {
 impl TeaModel for AppState {
     type Action = AppStatusUpdate;
 
-    fn update(action: Self::Action, mut writer: Write<Self>) {
+    fn update(&mut self, action: Self::Action) {
         match action {
             AppStatusUpdate::CupFetched => {
                 // when the cup is fetched, we start with an empty cup
-                writer.status = Status::EmptyCup;
+                self.status = Status::EmptyCup;
             }
             AppStatusUpdate::AddWater(temperature) => {
-                let Status::TeaBag(tea_type) = &writer.status else {
+                let Status::TeaBag(tea_type) = &self.status else {
                     // if there is no tea bag, we can't make tea
-                    writer.status = Status::Error(MakeTeaError::MissingTeaBag);
+                    self.status = Status::Error(MakeTeaError::MissingTeaBag);
                     return;
                 };
 
                 // check that the water temperature is within a valid range for a good cup of tea
                 let (low, high) = tea_type.temp_range();
                 if temperature < low {
-                    writer.status = Status::Error(MakeTeaError::WaterTooCold);
+                    self.status = Status::Error(MakeTeaError::WaterTooCold);
                 } else if temperature > high {
-                    writer.status = Status::Error(MakeTeaError::WaterTooHot);
+                    self.status = Status::Error(MakeTeaError::WaterTooHot);
                 } else {
-                    writer.status = Status::Water(temperature);
+                    self.status = Status::Water(temperature);
                 }
             }
             AppStatusUpdate::AddTeaBag(tea_type) => {
-                if matches!(writer.status, Status::EmptyCup) {
-                    writer.status = Status::TeaBag(tea_type);
+                if matches!(self.status, Status::EmptyCup) {
+                    self.status = Status::TeaBag(tea_type);
                 } else {
                     // if we are not in a state to add a tea bag, we can't add it
-                    writer.status = Status::Error(MakeTeaError::CupNotEmpty);
+                    self.status = Status::Error(MakeTeaError::CupNotEmpty);
                 }
             }
             AppStatusUpdate::Done => {
-                if let Status::Water(_) = &writer.status {
+                if let Status::Water(_) = &self.status {
                     // if we have water and a tea bag, we can finish making tea
-                    writer.status = Status::TeaReady;
+                    self.status = Status::TeaReady;
                 } else {
                     // if we are not in a state to make tea, we can't finish
-                    writer.status = Status::Error(MakeTeaError::MissingWater);
+                    self.status = Status::Error(MakeTeaError::MissingWater);
                 }
             }
         }
@@ -275,5 +275,30 @@ mod rsx_components {
                 }
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::model::TeaType;
+
+    // We can use standard Rust unit tests to verify the functionality of our tea-making application.
+
+    #[test]
+    fn confirm_that_we_start_without_a_cup() {
+        let app_state = AppState::default();
+        assert_eq!(app_state.status, Status::FetchingCup);
+    }
+
+    #[test]
+    fn confirm_that_we_can_only_add_a_tea_bag_when_we_have_a_cup() {
+        let mut app_state = AppState::default();
+        app_state.update(AppStatusUpdate::AddTeaBag(TeaType::Black));
+        assert_eq!(app_state.status, Status::Error(MakeTeaError::CupNotEmpty));
+
+        app_state.update(AppStatusUpdate::CupFetched);
+        app_state.update(AppStatusUpdate::AddTeaBag(TeaType::Black));
+        assert_eq!(app_state.status, Status::TeaBag(TeaType::Black));
     }
 }

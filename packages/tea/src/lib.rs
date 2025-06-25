@@ -18,12 +18,12 @@
 //! impl TeaModel for AppState {
 //!     type Action = AppStatusUpdate;
 //!
-//!     fn update(action: Self::Action, mut writer: Write<Self>) {
+//!     fn update(&mut self, action: Self::Action) {
 //!         match action {
 //!            // handle actions and update the state accordingly
 //!            AppStatusUpdate::CupFetched => {
 //!                 // when the cup is fetched, we start with an empty cup
-//!                 writer.status = Status::EmptyCup;
+//!                 self.status = Status::EmptyCup;
 //!             }
 //!             // other actions
 //!         }
@@ -41,7 +41,7 @@
 
 use dioxus::hooks::UnboundedReceiver;
 use dioxus::prelude::{
-    Coroutine, Readable, ReadableRef, Signal, Writable, Write, use_coroutine, use_signal,
+    Coroutine, Readable, ReadableRef, Signal, Writable, use_coroutine, use_signal,
 };
 use futures_util::StreamExt;
 
@@ -51,7 +51,7 @@ pub trait TeaModel: 'static + Default + Clone + PartialEq {
     type Action;
 
     /// Updates the model state based on the provided action.
-    fn update(action: Self::Action, writer: Write<Self>);
+    fn update(&mut self, action: Self::Action);
 }
 
 /// A signal that holds the state of a `TeaModel` and provides an internal coroutine for processing actions.
@@ -84,8 +84,9 @@ pub fn use_tea_model<T: TeaModel>() -> TeaModelSignal<T> {
     let co = use_coroutine(move |mut rx: UnboundedReceiver<T::Action>| async move {
         loop {
             if let Some(action) = rx.next().await {
-                let writer = inner.write();
-                T::update(action, writer);
+                inner.with_mut(|me| {
+                    me.update(action);
+                });
             }
         }
     });

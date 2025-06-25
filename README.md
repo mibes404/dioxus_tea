@@ -32,12 +32,12 @@ pub enum AppStatusUpdate {
 impl TeaModel for AppState {
     type Action = AppStatusUpdate;
 
-    fn update(action: Self::Action, mut writer: Write<Self>) {
+    fn update(&mut self, action: Self::Action) {
         match action {
            // handle actions and update the state accordingly
            AppStatusUpdate::CupFetched => {
                 // when the cup is fetched, we start with an empty cup
-                writer.status = Status::EmptyCup;
+                self.status = Status::EmptyCup;
             }
             // other actions
         }
