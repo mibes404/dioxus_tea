@@ -79,6 +79,7 @@ mod model {
         WaterTooCold,
         MissingWater,
         CupNotEmpty,
+        NoCup,
     }
 
     impl Display for MakeTeaError {
@@ -89,6 +90,7 @@ mod model {
                 MakeTeaError::WaterTooCold => "Water is too cold",
                 MakeTeaError::MissingWater => "No water added",
                 MakeTeaError::CupNotEmpty => "The cup is not empty",
+                MakeTeaError::NoCup => "No cup fetched",
             };
             write!(f, "{error_message}")
         }
@@ -135,11 +137,17 @@ impl TeaModel for AppState {
                 }
             }
             AppStatusUpdate::AddTeaBag(tea_type) => {
-                if matches!(self.status, Status::EmptyCup) {
-                    self.status = Status::TeaBag(tea_type);
-                } else {
-                    // if we are not in a state to add a tea bag, we can't add it
-                    self.status = Status::Error(MakeTeaError::CupNotEmpty);
+                match self.status {
+                    Status::EmptyCup => {
+                        self.status = Status::TeaBag(tea_type);
+                    }
+                    Status::FetchingCup => {
+                        self.status = Status::Error(MakeTeaError::NoCup);
+                    }
+                    _ => {
+                        // if we are not in a state to add a tea bag, we can't add it
+                        self.status = Status::Error(MakeTeaError::CupNotEmpty);
+                    }
                 }
             }
             AppStatusUpdate::Done => {
@@ -295,10 +303,22 @@ mod tests {
     fn confirm_that_we_can_only_add_a_tea_bag_when_we_have_a_cup() {
         let mut app_state = AppState::default();
         app_state.update(AppStatusUpdate::AddTeaBag(TeaType::Black));
-        assert_eq!(app_state.status, Status::Error(MakeTeaError::CupNotEmpty));
+        assert_eq!(
+            app_state.status,
+            Status::Error(MakeTeaError::NoCup),
+            "Cannot add a tea bag without a cup"
+        );
+    }
 
+    #[test]
+    fn should_be_able_to_add_a_tea_bag_when_we_have_a_cup() {
+        let mut app_state = AppState::default();
         app_state.update(AppStatusUpdate::CupFetched);
         app_state.update(AppStatusUpdate::AddTeaBag(TeaType::Black));
-        assert_eq!(app_state.status, Status::TeaBag(TeaType::Black));
+        assert_eq!(
+            app_state.status,
+            Status::TeaBag(TeaType::Black),
+            "Should be able to add a tea bag after fetching a cup"
+        );
     }
 }
