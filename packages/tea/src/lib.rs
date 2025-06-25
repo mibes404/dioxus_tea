@@ -39,9 +39,9 @@
 
 #![warn(clippy::pedantic)]
 
-use dioxus::hooks::UnboundedReceiver;
-use dioxus::prelude::{
-    Coroutine, Readable, ReadableRef, Signal, Writable, use_coroutine, use_signal,
+use dioxus::{
+    hooks::UnboundedReceiver,
+    prelude::{Coroutine, Readable, ReadableRef, Signal, Writable, use_coroutine, use_signal},
 };
 use futures_util::StreamExt;
 

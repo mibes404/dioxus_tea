@@ -31,9 +31,7 @@ mod model {
                 Status::FetchingCup => "Fetching a cup...",
                 Status::EmptyCup => "Empty cup. Add a tea bag.",
                 Status::TeaBag(tea_type) => &format!("Tea bag added: {tea_type}"),
-                Status::Water(temperature) => {
-                    &format!("Water added at {temperature}°C. Waiting for tea to brew...")
-                }
+                Status::Water(temperature) => &format!("Water added at {temperature}°C. Waiting for tea to brew..."),
                 Status::TeaReady => "Tea is ready!",
                 Status::Error(error) => &format!("Error: {error}"),
             };
