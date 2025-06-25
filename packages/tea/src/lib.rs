@@ -1,5 +1,41 @@
 //! Implementation of the Tea-model for Dioxus.
 //! Example usage can be found in the `examples/tea-time` directory.
+//!
+//! Usage:
+//! ```rust, nocompile
+//! #[derive(Default, Clone, PartialEq)]
+//!    pub struct AppState {
+//!    pub status: Status,
+//! }
+//!
+//! pub enum AppStatusUpdate {
+//!     CupFetched,
+//!     AddWater(u8),
+//!     AddTeaBag(TeaType),
+//!     Done,
+//! }
+//!
+//! impl TeaModel for AppState {
+//!     type Action = AppStatusUpdate;
+//!
+//!     fn update(action: Self::Action, mut writer: Write<Self>) {
+//!         match action {
+//!            // handle actions and update the state accordingly
+//!            AppStatusUpdate::CupFetched => {
+//!                 // when the cup is fetched, we start with an empty cup
+//!                 writer.status = Status::EmptyCup;
+//!             }
+//!             // other actions
+//!         }
+//!    }   
+//! }
+//!
+//! #[component]
+//!  pub fn App() -> Element {
+//!     let app_state = use_tea_model::<AppState>();
+//!     app_state.send(AppStatusUpdate::CupFetched);
+//! }
+//! ```
 
 #![warn(clippy::pedantic)]
 
@@ -11,8 +47,10 @@ use futures_util::StreamExt;
 
 /// Trait representing a TEA model in Dioxus.
 pub trait TeaModel: 'static + Default + Clone + PartialEq {
+    /// The type of actions that can be processed by this model.
     type Action;
 
+    /// Updates the model state based on the provided action.
     fn update(action: Self::Action, writer: Write<Self>);
 }
 
