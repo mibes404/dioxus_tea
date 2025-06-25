@@ -65,7 +65,7 @@ fn confirm_that_we_can_only_add_a_tea_bag_when_we_have_a_cup() {
     app_state.update(AppStatusUpdate::AddTeaBag(TeaType::Black));
     assert_eq!(
         app_state.status,
-        Status::Error(MakeTeaError::CupNotEmpty),
+        Status::Error(MakeTeaError::NoCup),
         "Cannot add a tea bag without a cup"
     );
 }
