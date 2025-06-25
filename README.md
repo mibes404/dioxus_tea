@@ -18,7 +18,7 @@ Usage:
 
 ```rust, nocompile
 #[derive(Default, Clone, PartialEq)]
-   pub struct AppState {
+pub struct AppState {
    pub status: Status,
 }
 
@@ -41,7 +41,7 @@ impl TeaModel for AppState {
             }
             // other actions
         }
-   }   
+    }   
 }
 
 #[component]
