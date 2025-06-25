@@ -1,6 +1,11 @@
 # Implementation of The Elm Architecture (TEA) in Dioxus
 
 People may also know this as the "Model-Update-View" architecture, or redux-like architecture.
+The benefit of this architecture is that it allows you to manage your application state in a predictable way,
+making it easier to reason about and test.
+
+The model is built in such a way that you can use regular Rust unit tests to test your application logic, i.e. the
+`update` function of your model.
 
 ## Usage
 
