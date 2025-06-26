@@ -5,6 +5,8 @@ description = "Dioxus - The Elm Architecture (tea) Model"
 version = { workspace = true }
 edition = { workspace = true }
 license = { workspace = true }
+repository = { workspace = true }
+keywords = { workspace = true }
 
 [dependencies]
 dioxus = { workspace = true }
