@@ -1,4 +1,4 @@
-//! Implementation of the Tea-model for Dioxus.
+//! Implementation of [The Elm Architecture](https://guide.elm-lang.org/architecture/)-model for Dioxus.
 //! Example usage can be found in the `examples/tea-time` directory.
 //!
 //! Usage:
@@ -41,7 +41,7 @@
 
 use dioxus::{
     hooks::UnboundedReceiver,
-    prelude::{Coroutine, Readable, ReadableRef, Signal, Writable, use_coroutine, use_signal},
+    prelude::{use_coroutine, use_signal, Coroutine, Readable, ReadableRef, Signal, Writable},
 };
 use futures_util::StreamExt;
 
