@@ -3,7 +3,7 @@
 ## Run the example
 
 ```bash
-dx serve  --platform web
+dx serve  --platform web --example tea-time
 ```
 
 # Unit testing
@@ -11,5 +11,5 @@ dx serve  --platform web
 To run the unit tests for the TEA implementation, you can run the standard Rust unit tests the following command:
 
 ```bash
-cargo test
+cargo test --example tea-time
 ```
