@@ -963,9 +963,10 @@ dependencies = [
 
 [[package]]
 name = "dioxus-tea"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "dioxus 0.7.0-alpha.1",
+ "dioxus-sdk",
  "futures-util",
 ]
 
@@ -2340,15 +2341,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "tea-time"
-version = "0.1.1"
-dependencies = [
- "dioxus 0.7.0-alpha.1",
- "dioxus-sdk",
- "dioxus-tea",
 ]
 
 [[package]]

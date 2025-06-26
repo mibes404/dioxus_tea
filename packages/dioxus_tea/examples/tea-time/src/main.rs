@@ -165,11 +165,11 @@ mod rsx_components {
     use super::model::{AppState, AppStatusUpdate, Status, TeaType};
     use dioxus::prelude::*;
     use dioxus_sdk::time::sleep;
-    use dioxus_tea::{TeaModelSignal, use_tea_model};
+    use dioxus_tea::{use_tea_model, TeaModelSignal};
     use std::time::Duration;
 
-    const MAIN_CSS: Asset = asset!("/assets/main.css");
-    const FAVICON: Asset = asset!("/assets/favicon.ico");
+    const MAIN_CSS: Asset = asset!("/examples/tea-time/assets/main.css");
+    const FAVICON: Asset = asset!("/examples/tea-time/assets/favicon.ico");
 
     #[component]
     pub(super) fn App() -> Element {

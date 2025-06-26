@@ -9,3 +9,10 @@ license = { workspace = true }
 [dependencies]
 dioxus = { workspace = true }
 futures-util = "0.3"
+
+[dev-dependencies]
+dioxus-sdk = { version = "0.7.0-alpha.1", features = ["util", "time"] }
+
+[[example]]
+name = "tea-time"
+path = "examples/tea-time/src/main.rs"
