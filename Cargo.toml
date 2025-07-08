@@ -11,7 +11,7 @@ repository = "https://github.com/mibes404/dioxus_tea.git"
 keywords = ["dioxus", "elm", "tea", "model", "state"]
 
 [workspace.dependencies]
-dioxus = { version = "0.7.0-alpha.1", features = [] }
+dioxus = { version = "0.7.0-alpha.2", features = [] }
 
 [profile]
 
@@ -24,5 +24,3 @@ inherits = "dev"
 
 [profile.android-dev]
 inherits = "dev"
-
-
