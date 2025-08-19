@@ -1056,7 +1056,7 @@ dependencies = [
 
 [[package]]
 name = "dioxus-tea"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "dioxus 0.7.0-rc.0",
  "dioxus-primitives",
