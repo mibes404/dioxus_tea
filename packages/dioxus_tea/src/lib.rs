@@ -39,10 +39,9 @@
 
 #![warn(clippy::pedantic)]
 
-use dioxus::prelude::{ReadableExt, WritableExt};
 use dioxus::{
     hooks::UnboundedReceiver,
-    prelude::{use_coroutine, use_signal, Coroutine, Readable, ReadableRef, Signal, Writable},
+    prelude::{use_coroutine, use_signal, Coroutine, ReadableExt, ReadableRef, Signal, WritableExt},
 };
 use futures_util::StreamExt;
 
@@ -67,7 +66,7 @@ impl<T: TeaModel> Copy for TeaModelSignal<T> {}
 impl<T: TeaModel> TeaModelSignal<T> {
     #[must_use]
     /// Returns a reference to the underlying signal for reading the model state.
-    pub fn read(&self) -> ReadableRef<Signal<T>> {
+    pub fn read(&self) -> ReadableRef<'_, Signal<T>> {
         self.inner.read()
     }
 
