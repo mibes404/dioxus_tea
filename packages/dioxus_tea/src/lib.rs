@@ -2,7 +2,7 @@
 //! Example usage can be found in the `examples/tea-time` directory.
 //!
 //! Usage:
-//! ```rust, nocompile
+//! ```rust,ignore
 //! #[derive(Default, Clone, PartialEq)]
 //! pub struct AppState {
 //!    pub status: Status,
