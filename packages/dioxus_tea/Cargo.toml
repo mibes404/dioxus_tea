@@ -13,7 +13,7 @@ dioxus = { workspace = true }
 futures-util = "0.3"
 
 [dev-dependencies]
-dioxus-sdk = { version = "0.7.0-alpha.1", features = ["util", "time"] }
+gloo-timers = { version = "0.3", features = ["futures"] }
 
 [[example]]
 name = "tea-time"
