@@ -164,8 +164,8 @@ impl TeaModel for AppState {
 mod rsx_components {
     use super::model::{AppState, AppStatusUpdate, Status, TeaType};
     use dioxus::prelude::*;
-    use dioxus_sdk::time::sleep;
     use dioxus_tea::{use_tea_model, TeaModelSignal};
+    use gloo_timers::future::sleep;
     use std::time::Duration;
 
     const MAIN_CSS: Asset = asset!("/examples/tea-time/assets/main.css");
