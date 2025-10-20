@@ -74,5 +74,5 @@ fn confirm_that_we_can_only_add_a_tea_bag_when_we_have_a_cup() {
 ### Run the example
 
 ```bash
-dx serve --platform web --example tea-time --package dioxus-tea
+dx serve --web --example tea-time --package dioxus-tea
 ```
