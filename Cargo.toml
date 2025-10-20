@@ -6,12 +6,12 @@ resolver = "2"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 rust-version = "1.80.0"
-version = "0.1.6"
+version = "0.1.7"
 repository = "https://github.com/mibes404/dioxus_tea.git"
 keywords = ["dioxus", "elm", "tea", "model", "state"]
 
 [workspace.dependencies]
-dioxus = { version = "0.7.0-rc.0", features = [] }
+dioxus = { version = "0.7.0-rc.2", features = [] }
 
 [profile]
 
