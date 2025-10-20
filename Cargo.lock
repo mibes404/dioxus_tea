@@ -930,7 +930,7 @@ dependencies = [
 
 [[package]]
 name = "dioxus-tea"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "dioxus 0.7.0-rc.2",
  "dioxus-sdk",
